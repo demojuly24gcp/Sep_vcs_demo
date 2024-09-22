@@ -1,0 +1,88 @@
+# config.yaml
+#%%writefile config.yaml
+# General settings
+app:
+  name: "mlops-app"
+  version: "1.0.0"
+  environment: "production"  # Options: development, testing, production
+
+# Data settings
+data:
+  raw_data_path: "s3://mybucket/raw-data/"
+  processed_data_path: "s3://mybucket/processed-data/"
+  batch_size: 64
+  shuffle: true
+  validation_split: 0.2
+
+# Model settings
+model:
+  type: "Randomforest"
+  parameters:
+    n_estimators: 100
+    max_depth: 20
+    random_state: 42
+
+  # Path to save the trained model
+  save_path: "s3://mybucket/models/random_forest.pkl"
+
+# Training settings
+training:
+  epochs: 50
+  learning_rate: 0.001
+  optimizer: "adam"
+  loss_function: "cross_entropy"
+  early_stopping:
+    patience: 10
+    min_delta: 0.001
+
+# Evaluation settings
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+  test_data_path: "s3://mybucket/test-data/"
+
+# Logging settings
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_file_path: "logs/training.log"
+
+# Deployment settings
+deployment:
+  model_registry_url: "http://model-registry.internal/api/v1/models"
+  deployment_type: "docker"  # Options: docker, kubernetes
+  docker:
+    image_name: "mlops-app-image"
+    container_name: "mlops-app-container"
+    ports:
+      - "5000:5000"
+  kubernetes:
+    namespace: "production"
+    replicas: 3
+    resources:
+      limits:
+        cpu: "2"
+        memory: "4Gi"
+      requests:
+        cpu: "1"
+        memory: "2Gi"
+
+# Monitoring settings
+monitoring:
+  enable: true
+  monitoring_service_url: "http://monitoring-service.internal/api/v1/metrics"
+  alerting_thresholds:
+    accuracy: 0.85
+    latency: 200  # in milliseconds
+
+# Security settings
+security:
+  use_https: true
+  certificate_path: "/etc/ssl/certs/mycert.pem"
+  key_path: "/etc/ssl/private/mykey.pem"
+  environment_variables:
+    - name: "AWS_ACCESS_KEY_ID"
+      value: "your-aws-access-key"
+    - name: "AWS_SECRET_ACCESS_KEY"
+      value: "your-aws-secret-key"
