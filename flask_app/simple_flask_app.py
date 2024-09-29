@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return "Hello, Flask is running!"
+    return "Hello, Welcome to the MLOPS session!"
 
 if __name__ == '__main__':
     app.run(debug=True)

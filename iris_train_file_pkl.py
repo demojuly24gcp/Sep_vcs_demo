@@ -42,4 +42,3 @@ model.fit(X_train, y_train)
 # Save the trained model to a file
 with open('iris_model.pkl', 'wb') as file:
     pickle.dump(model, file)
-
